@@ -16,19 +16,19 @@ import javax.persistence.ManyToMany;
  * @author martin
  */
 @Entity
-public class Student {
+public class User {
     @Id
     @GeneratedValue
     private Integer id;
-    private String name;
+    private String username;
     private String password;
     @ManyToMany(mappedBy = "enrolledStudents")
     private List<Course> enrolledCourses; 
 
-    Student() {
+    User() {
     }
 
-    public Student(Integer id) {
+    public User(Integer id) {
         this.id = id;
     }
 
@@ -40,13 +40,14 @@ public class Student {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
 
     public String getPassword() {
         return password;
@@ -67,7 +68,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "id=" + id + ", name=" + name + '}';
+        return "User{" + "id=" + id + ", name=" + username + '}';
     }
     
     

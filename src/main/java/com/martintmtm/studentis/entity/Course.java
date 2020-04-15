@@ -31,7 +31,7 @@ public class Course {
             name="course_enrolments", 
             joinColumns = @JoinColumn (name="course_id"),
             inverseJoinColumns = @JoinColumn(name="student_id"))
-    private List<Student> enrolledStudents;
+    private List<User> enrolledStudents;
 
     public Course() {
     }
@@ -56,11 +56,11 @@ public class Course {
         this.name = name;
     }
 
-    public List<Student> getEnrolledStudents() {
+    public List<User> getEnrolledStudents() {
         return enrolledStudents;
     }
 
-    public void setEnrolledStudents(List<Student> enrolledStudents) {
+    public void setEnrolledStudents(List<User> enrolledStudents) {
         this.enrolledStudents = enrolledStudents;
     }
     

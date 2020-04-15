@@ -9,13 +9,13 @@ import com.martintmtm.studentis.entity.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.martintmtm.studentis.repository.CourseRepository;
-import com.martintmtm.studentis.repository.StudentRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.martintmtm.studentis.repository.UserRepository;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CoursesController {
     
     @Autowired
-    private StudentRepository studentRepository;
+    private UserRepository studentRepository;
     
     @Autowired
     private CourseRepository courseRepository;

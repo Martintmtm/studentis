@@ -15,5 +15,6 @@ insert into course values (4, 'physics');
 insert into course values (5, 'chemistry');
 insert into user values (1, 'martin', 'martin');
 insert into user values (2, 'lenart', 'lenart');
+insert into user values (2, 'tina', 'tina');
 
 

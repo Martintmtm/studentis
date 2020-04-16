@@ -5,10 +5,15 @@
  */
 package com.martintmtm.studentis.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 /**
@@ -22,8 +27,14 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    @ManyToMany(mappedBy = "enrolledStudents")
-    private List<Course> enrolledCourses; 
+    
+    @JsonIgnore
+    @ManyToMany()
+    @JoinTable(
+            name="user_course", 
+            joinColumns = @JoinColumn (name="fk_user"),
+            inverseJoinColumns = @JoinColumn(name="fk_course"))
+    private Set<Course> enrolledCourses; 
 
     User() {
     }
@@ -57,11 +68,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Course> getEnrolledCourses() {
+    public Set<Course> getEnrolledCourses() {
         return enrolledCourses;
     }
 
-    public void setEnrolledCourses(List<Course> enrolledCourses) {
+    public void setEnrolledCourses(Set<Course> enrolledCourses) {
         this.enrolledCourses = enrolledCourses;
     }
     

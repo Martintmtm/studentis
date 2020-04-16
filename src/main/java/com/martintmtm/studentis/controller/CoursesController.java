@@ -26,12 +26,8 @@ import com.martintmtm.studentis.repository.UserRepository;
 public class CoursesController {
     
     @Autowired
-    private UserRepository studentRepository;
-    
-    @Autowired
     private CourseRepository courseRepository;
     
-    // TODO let them know če je atribut ilegalen.
     @GetMapping("/classes")
     public List<Course> getAllClasses(@RequestParam(name = "name", required = false) String searchString) {
         if(searchString == null) {
@@ -48,7 +44,7 @@ public class CoursesController {
     public Course getClassById(@PathVariable int id) {
         Optional<Course> course = courseRepository.findById(id);
         if(!course.isPresent()) {
-            throw new RuntimeException();       // TODO custom class
+            throw new RuntimeException("class not found");                      
         }
         return course.get();
     }

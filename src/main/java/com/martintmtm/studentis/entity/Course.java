@@ -7,8 +7,12 @@ package com.martintmtm.studentis.entity;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,17 +25,16 @@ import javax.persistence.ManyToMany;
  */
 
 @Entity
-public class Course {
+public class Course implements Serializable{
+    private static final long serialVersionUID = 9178661439383356177L;
+    
     @Id
     @GeneratedValue
     private Integer id;
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name="course_enrolments", 
-            joinColumns = @JoinColumn (name="course_id"),
-            inverseJoinColumns = @JoinColumn(name="student_id"))
-    private List<User> enrolledStudents;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "enrolledCourses")
+    private Set<User> enrolledStudents;
 
     public Course() {
     }
@@ -56,16 +59,33 @@ public class Course {
         this.name = name;
     }
 
-    public List<User> getEnrolledStudents() {
+    public Set<User> getEnrolledStudents() {
         return enrolledStudents;
     }
 
-    public void setEnrolledStudents(List<User> enrolledStudents) {
+    public void setEnrolledStudents(Set<User> enrolledStudents) {
         this.enrolledStudents = enrolledStudents;
     }
-    
-    
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Course other = (Course) obj;
+        if (other.getId() == null)
+		return false;
+        return this.id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+    
     @Override
     public String toString() {
         return "Class{" + "id=" + id + ", name=" + name + '}';

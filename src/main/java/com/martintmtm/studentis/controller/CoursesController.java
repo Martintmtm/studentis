@@ -5,6 +5,7 @@
  */
 package com.martintmtm.studentis.controller;
 
+import com.martintmtm.studentis.exception.CourseNotFoundException;
 import com.martintmtm.studentis.entity.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.martintmtm.studentis.repository.UserRepository;
 
 /**
  *
@@ -44,7 +44,7 @@ public class CoursesController {
     public Course getClassById(@PathVariable int id) {
         Optional<Course> course = courseRepository.findById(id);
         if(!course.isPresent()) {
-            throw new RuntimeException("class not found");                      
+            throw new CourseNotFoundException(String.format("Class with id %s does not exist", id));                      
         }
         return course.get();
     }

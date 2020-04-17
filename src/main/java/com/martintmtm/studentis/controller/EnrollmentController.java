@@ -7,25 +7,20 @@ package com.martintmtm.studentis.controller;
 
 import com.martintmtm.studentis.entity.Course;
 import com.martintmtm.studentis.entity.User;
+import com.martintmtm.studentis.exception.CourseNotFoundException;
+import com.martintmtm.studentis.exception.NotAuthorizedException;
 import com.martintmtm.studentis.repository.CourseRepository;
 import com.martintmtm.studentis.repository.UserRepository;
-import java.net.URI;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
@@ -43,7 +38,7 @@ public class EnrollmentController {
     private CourseRepository courseRepository;
     
     @GetMapping("/user/enrollment")
-    public Set<Course> getAllEnrolledCourses (Principal principal) {
+    public Set<Course> getAllEnrolledClasses (Principal principal) {
         User user = getCurrentStudent(principal);
         return user.getEnrolledCourses();
     }
@@ -51,6 +46,7 @@ public class EnrollmentController {
     @PostMapping("/user/enrollment")
     public Set<Course> enrollToClasses(@RequestBody List<Course> courses, Principal principal) {
         User user = getCurrentStudent(principal);
+        validateCoursesId(courses);
         
         courses.forEach(
             (course) -> user.getEnrolledCourses().add(new Course(course.getId()))
@@ -61,23 +57,33 @@ public class EnrollmentController {
     }
     
     @DeleteMapping("/user/enrollment")
-    public User cancelEnrollmentToClasses(@RequestBody List<Course> courses, Principal principal) {
+    public void cancelEnrollmentFromClasses(@RequestBody List<Course> courses, Principal principal) {
         User user = getCurrentStudent(principal);
+        validateCoursesId(courses);
         
         courses.forEach(
             (course) -> user.getEnrolledCourses().remove(new Course(course.getId()))
         );
         
         userRepository.save(user);
-        return user;
     }
     
     private User getCurrentStudent(Principal principal) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (!userOptional.isPresent()) {
-            throw new UsernameNotFoundException(String.format("Username with name %s does not exist.", principal.getName()));  // throw unathorized request
+            throw new NotAuthorizedException("Not authorised.");  
         }
         return userOptional.get();
+    }
+    
+    private void validateCoursesId(List<Course> courses) {
+        for (Course course: courses) {
+            Optional<Course> courseOptional = courseRepository.findById(course.getId());
+             if(!courseOptional.isPresent()) {
+                 throw new CourseNotFoundException(String.format("Not possible to enroll to entered classes. "
+                         + "Reason: class with id %s does not exist.", course.getId()));                      
+            }
+        }
     }
     
     

@@ -68,6 +68,9 @@ public class Course implements Serializable{
     }
 
     @Override
+    /**
+     * equality is based only on id equality
+     */
     public boolean equals(Object obj) {
         if (this == obj)
 		return true;

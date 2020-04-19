@@ -15,6 +15,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,7 @@ public class EnrollmentController {
     }
     
     @PostMapping("/user/enrollment")
-    public Set<Course> enrollToClasses(@RequestBody List<Course> courses, Principal principal) {
+    public Set<Course> enrollToClasses(@Valid @RequestBody List<Course> courses, Principal principal) {
         User user = getCurrentStudent(principal);
         validateCoursesId(courses);
         
@@ -59,7 +60,7 @@ public class EnrollmentController {
     }
     
     @DeleteMapping("/user/enrollment")
-    public Set<Course> cancelEnrollmentFromClasses(@RequestBody List<Course> courses, Principal principal) {
+    public Set<Course> cancelEnrollmentFromClasses(@Valid @RequestBody List<Course> courses, Principal principal) {
         User user = getCurrentStudent(principal);
         validateCoursesId(courses);
         

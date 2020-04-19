@@ -28,6 +28,6 @@ public class SwaggerConfiguration {
           .select()                                  
           .apis(RequestHandlerSelectors.basePackage("com.martintmtm.studentis"))
           .build()
-          .apiInfo(ApiInfo.DEFAULT);      // add custom api info here if needed                                           
+          .apiInfo(ApiInfo.DEFAULT);        // add custom api info here if needed                                           
     }
 }

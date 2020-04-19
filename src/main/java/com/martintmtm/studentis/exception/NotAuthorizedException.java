@@ -10,6 +10,7 @@ package com.martintmtm.studentis.exception;
  * @author martin
  */
 public class NotAuthorizedException  extends RuntimeException {
+    
      public NotAuthorizedException(String message) {
         super(message);
     }

@@ -10,8 +10,10 @@ insert into course values (2, 'mathematics');
 insert into course values (3, 'algorithms and data structures');
 insert into course values (4, 'physics');
 insert into course values (5, 'chemistry');
-insert into user values (1, 'martin', 'martin');
-insert into user values (2, 'lenart', 'lenart');
-insert into user values (3, 'tina', 'tina');
+
+/*Password is "test" for everybody*/
+insert into user (id, username, password) values (1, 'martin', '$2y$10$TO9nYU/lLNF0dgoW4UfUSeMPxYmig/kJgNuBMEBzex0u2cyFgQLsS');
+insert into user (id, username, password) values (2, 'lenart', '$2y$10$TO9nYU/lLNF0dgoW4UfUSeMPxYmig/kJgNuBMEBzex0u2cyFgQLsS');
+insert into user (id, username, password) values (3, 'tina', '$2y$10$TO9nYU/lLNF0dgoW4UfUSeMPxYmig/kJgNuBMEBzex0u2cyFgQLsS');
 
 

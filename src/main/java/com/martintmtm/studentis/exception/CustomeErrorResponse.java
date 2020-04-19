@@ -11,14 +11,14 @@ import java.util.Date;
  *
  * @author martin
  */
-public class CustomExceptionResponse {
+public class CustomeErrorResponse {
     private Date timestamp;
     private String message;
 
-    public CustomExceptionResponse() {
+    public CustomeErrorResponse() {
     }
 
-    public CustomExceptionResponse(Date timestamp, String message) {
+    public CustomeErrorResponse(Date timestamp, String message) {
         this.timestamp = timestamp;
         this.message = message;
     }

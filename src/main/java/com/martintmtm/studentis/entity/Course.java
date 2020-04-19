@@ -9,15 +9,13 @@ package com.martintmtm.studentis.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -30,6 +28,8 @@ public class Course implements Serializable{
     
     @Id
     @GeneratedValue
+    @NotNull(message= "Id must not be null or empty")
+    @Min(value=1, message="Id must be equal or greater than 1.")
     private Integer id;
     private String name;
     @JsonIgnore

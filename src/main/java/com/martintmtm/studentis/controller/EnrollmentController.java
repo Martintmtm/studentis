@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@Validated
 public class EnrollmentController {
     
     @Autowired
@@ -57,7 +59,7 @@ public class EnrollmentController {
     }
     
     @DeleteMapping("/user/enrollment")
-    public void cancelEnrollmentFromClasses(@RequestBody List<Course> courses, Principal principal) {
+    public Set<Course> cancelEnrollmentFromClasses(@RequestBody List<Course> courses, Principal principal) {
         User user = getCurrentStudent(principal);
         validateCoursesId(courses);
         
@@ -66,6 +68,7 @@ public class EnrollmentController {
         );
         
         userRepository.save(user);
+        return user.getEnrolledCourses();
     }
     
     private User getCurrentStudent(Principal principal) {
@@ -80,8 +83,7 @@ public class EnrollmentController {
         for (Course course: courses) {
             Optional<Course> courseOptional = courseRepository.findById(course.getId());
              if(!courseOptional.isPresent()) {
-                 throw new CourseNotFoundException(String.format("Not possible to enroll to entered classes. "
-                         + "Reason: class with id %s does not exist.", course.getId()));                      
+                 throw new CourseNotFoundException(String.format("Class with id %s does not exist.", course.getId()));                      
             }
         }
     }
